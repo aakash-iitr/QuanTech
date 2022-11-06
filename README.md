@@ -1,1 +1,1 @@
-# QuanTech
+# Random Password Generator and manager
