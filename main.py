@@ -21,11 +21,6 @@ import quant_random_generator as q
 mydir = os.path.abspath(os.getcwd())
 myname = os.getlogin()
 
-# data = sec.decrypt(mydir + '\\data.crypt')
-# data = data.split('\n')
-# data = [x.split() for x in data]
-data = []
-
 # Designing window for registration
  
 def register():
@@ -58,7 +53,7 @@ def display(entry):
 
 def new_entry():
     data.append([web.get(), userid.get(), q.generate(16)])
-    sec.encrypt
+    sec.encrypt('\n'.join([' '.join(line) for line in data]), mydir + '\\data.crypt')
     display(data[-1])
     add_new_sucess()
 
@@ -76,7 +71,7 @@ def add_new():
     web = StringVar()
     userid = StringVar()
  
-    global password_login_entry
+    global password_login_entry, web_entry
  
     Label(add_new_screen, text=f"Hello {myname}!").pack()
 
@@ -96,9 +91,11 @@ def add_new():
 # Implementing event on register button
 
 def register_user():
- 
+    global data
     password_info = password.get()
-    # sec.encrypt(password_info, mydir + '\\data.crypt')
+    data = [[password_info]]
+    sec.encrypt(password_info, mydir + '\\data.crypt')
+    
 
     password_entry.delete(0, END)
 
@@ -111,8 +108,8 @@ def login_verify():
     password1 = password_verify.get()
     # password_login_entry.delete(0, END)
     
-    # file = sec.decrypt(mydir + '\\data.crypt')
-    file = ['quantum']
+    file = sec.decrypt(mydir + '\\data.crypt').split('\n')
+    # file = ['quantum']
     if file[0]== password1:
         login_sucess()
     else:
@@ -147,7 +144,7 @@ def password_not_recognised():
     Button(password_not_recog_screen, text="OK", command=delete_password_not_recognised).pack()
  
 def mainloop():
-    global main_screen
+    global main_screen, data
     
     main_screen = Toplevel(reglog_screen)
     main_screen.geometry("300x250")
@@ -156,7 +153,7 @@ def mainloop():
     Button(main_screen, text="New entry", height="2", width="30", command = add_new).pack()
     Label(main_screen, text="").pack()
     
-    for line in data:
+    for line in data[1:]:
         display(line)
         
     # main_screen.mainloop()
@@ -179,7 +176,7 @@ def delete_password_not_recognised():
 reglog_screen = Tk()
 reglog_screen.geometry("300x250")
 
-if 'data.crypt' not in os.listdir():
+if 'data.crypt' in os.listdir():
 
     reglog_screen.title("Login")
     Label(reglog_screen, text="Please enter details below to login").pack()
@@ -196,6 +193,14 @@ if 'data.crypt' not in os.listdir():
     Label(reglog_screen, text="").pack()
     
     Button(reglog_screen, text="Login", width=10, height=1, command = login_verify).pack()
+
+    data = sec.decrypt(mydir + '\\data.crypt').split('\n')
+    for i, line in enumerate(data):
+        if i==0:
+            data[0] = [line]
+            continue
+
+        data[i] = data[i].split(' ')
 else:
     reglog_screen.title("Register")
  
