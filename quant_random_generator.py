@@ -1,3 +1,11 @@
+'''
+author: aakash k singh
+date created: 6 Nov
+purpose: for QCG hackathon
+
+qiskit library required to be installed
+'''
+
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, BasicAer, execute
 
 def bin_to_dec(input_str):
