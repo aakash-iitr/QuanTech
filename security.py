@@ -1,34 +1,20 @@
 #from Cryptodome.Cipher import AES
 import uuid
-textToNum = lambda x: int.from_bytes(bytes(x, 'utf-8'), 'big')
+import base64
+from cryptography.fernet import Fernet
+
 def mac_address():
+    return str(uuid.getnode())
+
+def encrypt(text ,directory):        
+    token = f.encrypt(text.encode())
     
-    uu=str(uuid.getnode())
-    return uu
-
-def encrypt(text,directory):
-    uuid=mac_address()
-    key = textToNum(uuid)
-    key = key.to_bytes(32, 'big')    
-    data = bytes(text, 'utf-8')
-    aes = AES.new(key, AES.MODE_EAX)
-    encrypted = aes.encrypt_and_digest(data)
-    en=open(directory,"w")
-    en.write(encrypted)
-    return directory
-
-
+    with open(directory, 'wb') as file:
+        file.write(token)
 
 def decrypt(directory):
+    with open(directory, 'rb') as file:
+        return f.decrypt(file.read()).decode()
     
-    uuid=mac_address()
-    key = textToNum(uuid)
-    key = key.to_bytes(32, 'big')
-    en=open(directory,"r")
-    encrypted=en.read()
-    aes = AES.new(key, AES.MODE_EAX)
-    try:
-        data = aes.decrypt_and_verify(encrypted)
-        return data.decode()
-    except Exception:
-        return 'Data was tampered!'
+b = base64.urlsafe_b64encode(mac_address().encode().zfill(32))
+f = Fernet(b)
