@@ -21,7 +21,7 @@ def bin_to_dec(input_str):
 
 def quantum_random():
     #will generate a list with string of bits at 0th index
-    n=7  #because ascii values we'll use are at max 122 so 0-127 range of number would work
+    n=7  #because we want ascii values so 0-127 range of number would work
     qr = QuantumRegister(n, 'q_reg')
     cr = ClassicalRegister(n, 'c_reg')
     qc = QuantumCircuit(qr, cr)
