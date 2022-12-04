@@ -36,7 +36,7 @@ def quantum_random():
     random_int = bin_to_dec(generated_list[0])
     return random_int
 
-def generate(n):  # main function
+def generate(n):  # main function to generate random password
     # n is length of password
    
     passw = ''
