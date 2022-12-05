@@ -1,4 +1,4 @@
-# Random Password Generator and manager
+# Random Password Generator and Password Manager
 
 The project uses Quantum simulator to generate a random password which in comparison to classical methods is purely random.
 In the classical methods a pseudorandom number is generated which is actually made by manipulating constants like date and time.
